@@ -2,6 +2,8 @@ import { Box, Button, InputAdornment, TextField } from '@material-ui/core'
 import React from 'react'
 
 import useApplicationForm from '../../hooks/useApplicationForm'
+import * as api from '../../api'
+import { ApplicationFormData, ApplicationFormResponse } from '../../types'
 
 // consider switching to using react-text-mask or react-number-format to do masking
 const UsdAdornment = <InputAdornment position='start'>$</InputAdornment>
@@ -16,6 +18,27 @@ const ApplicationForm: React.FunctionComponent = () => {
     setPrice,
     warnings
   } = useApplicationForm()
+
+  const submitForm = async () => {
+    const formData: ApplicationFormData = {
+      creditScore: Number(formState.creditScore),
+      income: Number(formState.income),
+      make: formState.make,
+      model: formState.model,
+      price: Number(formState.price)
+    }
+    try {
+      const response = await api.submitApplication(formData)
+      const { preapproved }: ApplicationFormResponse = await response.json()
+      if (preapproved) {
+        console.log('loan preapproved!')
+      } else {
+        console.log('loan rejected!')
+      }
+    } catch (err) {
+      console.log(err.statusText)
+    }
+  }
 
   return (
     <Box display='flex' flexDirection='column' width='50%'>
@@ -69,8 +92,9 @@ const ApplicationForm: React.FunctionComponent = () => {
         value={formState.creditScore}
       />
       <Button
-        onClick={() => {}}
+        onClick={submitForm}
         size='large'
+        variant='contained'
       >
         Submit
       </Button>

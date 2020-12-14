@@ -44,13 +44,13 @@
   - Allow re-entering initial route so folks can test this app easily, but refreshing DQ page should stay there
 
 ## API Call
-- [ ] Implement mock fetch call
-- [ ] Return promise-wrapped response object
-  - [ ] 200 w/ Disqualification message (can be lorem ipsum) if...
-    - [ ] Purchase price > (income * 0.2)
-    - [ ] Credit score < 600
-  - [ ] 400 (bad request) if auto purchase price > 1 million
-  - [ ] Otherwise, 200 w/ approval message
+- [x] Implement mock fetch call
+- [x] Return promise-wrapped response object
+  - [x] 200 w/ Disqualification message (can be lorem ipsum) if...
+    - [x] Purchase price > (income * 0.2)
+    - [x] Credit score < 600
+  - [x] 400 (bad request) if auto purchase price > 1 million
+  - [x] Otherwise, 200 w/ approval message
 
 ## Stretch Goals
 - [ ] Include show/hide button for password fields
