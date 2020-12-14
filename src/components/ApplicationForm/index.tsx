@@ -1,21 +1,27 @@
-import { Box, Button, InputAdornment, TextField } from '@material-ui/core'
+import { Box, Button, TextField } from '@material-ui/core'
 import React from 'react'
+import MaskedInput from 'react-text-mask'
+import { createNumberMask } from 'text-mask-addons'
 
 import useApplicationForm from '../../hooks/useApplicationForm'
 import * as api from '../../api'
-import { ApplicationFormData, ApplicationFormResponse } from '../../types'
+import { ApplicationFormData, ApplicationFormField, ApplicationFormResponse } from '../../types'
 
-// consider switching to using react-text-mask or react-number-format to do masking
-const UsdAdornment = <InputAdornment position='start'>$</InputAdornment>
+const currencyMask = createNumberMask({})
+const numberMask = createNumberMask({ prefix: '' })
 
-const ApplicationForm: React.FunctionComponent = () => {
+const CurrencyInput = (props: any) => (
+  <MaskedInput {...props} mask={currencyMask} />
+)
+const NumberInput = (props: any) => (
+  <MaskedInput {...props} mask={numberMask} />
+)
+
+const ApplicationForm = () => {
   const {
+    actions,
+    dirty,
     formState,
-    setCreditScore,
-    setIncome,
-    setMake,
-    setModel,
-    setPrice,
     warnings
   } = useApplicationForm()
 
@@ -39,59 +45,46 @@ const ApplicationForm: React.FunctionComponent = () => {
       console.log(err.statusText)
     }
   }
+  const getFieldProps = (field: ApplicationFormField) => ({
+    error: dirty[field] && !!warnings[field],
+    helperText: dirty[field] && warnings[field],
+    value: formState[field]
+  })
+  const isFormValid = !Object.values(warnings).some(Boolean)
 
   return (
     <Box display='flex' flexDirection='column' width='50%'>
       <TextField
-        error={!!warnings.price}
-        helperText={warnings.price}
-        InputProps={{
-          startAdornment: UsdAdornment
-        }}
+        {...getFieldProps('price')}
+        InputProps={{ inputComponent: CurrencyInput }}
         label='Purchase Price'
-        onChange={e => setPrice(e.target.value)}
-        type='number'
-        value={formState.price}
+        onChange={e => actions.setPrice(e.target.value)}
       />
       <TextField
-        error={!!warnings.make}
-        helperText={warnings.make}
-        InputLabelProps={{ shrink: true }}
+        {...getFieldProps('make')}
         label='Auto Make'
-        onChange={e => setMake(e.target.value)}
-        type='text'
-        value={formState.make}
+        onChange={e => actions.setMake(e.target.value)}
       />
       <TextField
-        error={!!warnings.model}
-        helperText={warnings.model}
-        InputLabelProps={{ shrink: true }}
+        {...getFieldProps('model')}
         label='Auto Model'
-        onChange={e => setModel(e.target.value)}
-        type='text'
-        value={formState.model}
+        onChange={e => actions.setModel(e.target.value)}
       />
       <TextField
-        error={!!warnings.income}
-        helperText={warnings.income}
-        InputProps={{
-          startAdornment: UsdAdornment
-        }}
+        {...getFieldProps('income')}
+        InputProps={{ inputComponent: CurrencyInput }}
         label='Estimated Yearly Income'
-        onChange={e => setIncome(e.target.value)}
-        type='number'
-        value={formState.income}
+        onChange={e => actions.setIncome(e.target.value)}
       />
       <TextField
-        error={!!warnings.creditScore}
-        helperText={warnings.creditScore}
-        InputLabelProps={{ shrink: true }}
+        {...getFieldProps('creditScore')}
+        InputProps={{ inputComponent: NumberInput }}
         label='Estimated Credit Score'
-        onChange={e => setCreditScore(e.target.value)}
-        type='number'
-        value={formState.creditScore}
+        onChange={e => actions.setCreditScore(e.target.value)}
       />
       <Button
+        color='primary'
+        disabled={!isFormValid}
         onClick={submitForm}
         size='large'
         variant='contained'

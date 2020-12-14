@@ -22,6 +22,13 @@ const useApplicationForm = () => {
   const [make, setMake] = useState('')
   const [model, setModel] = useState('')
   const [price, setPrice] = useState('')
+  const [dirty, setDirty] = useState({
+    creditScore: false,
+    income: false,
+    make: false,
+    model: false,
+    price: false
+  })
 
   const formState: ApplicationForm = {
     creditScore,
@@ -33,13 +40,22 @@ const useApplicationForm = () => {
 
   const warnings = validateForm(formState)
 
+
+  const createSetFn = (setter: Function, field: string) => (val: any) => {
+    setDirty((prev) => ({ ...prev, [field]: true }))
+    setter(val)
+  }
+
   return {
+    actions: {
+      setCreditScore: createSetFn(setCreditScore, 'creditScore'),
+      setIncome: createSetFn(setIncome, 'income'),
+      setMake: createSetFn(setMake, 'make'),
+      setModel: createSetFn(setModel, 'model'),
+      setPrice: createSetFn(setPrice, 'setPrice')
+    },
+    dirty,
     formState,
-    setCreditScore,
-    setIncome,
-    setMake,
-    setModel,
-    setPrice,
     warnings
   }
 }

@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 import ApplicationForm from './components/ApplicationForm'
 
-const Routes: React.FunctionComponent = () => (
+const Routes = () => (
   <Switch>
     <Route path='/prequalify'>
       <ApplicationForm />

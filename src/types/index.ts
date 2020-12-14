@@ -1,3 +1,4 @@
+export type ApplicationFormField = 'creditScore' | 'income' | 'make' | 'model' | 'price'
 export type ValidationWarning = string | false
 
 /**
