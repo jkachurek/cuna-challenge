@@ -56,3 +56,6 @@
 - [ ] Include show/hide button for password fields
 - [ ] Success message for account creation page
   - Hide form, show success message on submission
+
+## Annoyances
+- [ ] Field validation error should not change horizontal margin of application form

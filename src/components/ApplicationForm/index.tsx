@@ -18,9 +18,6 @@ const MaskedInputWithRef = ({ inputRef, ...rest }: any) => {
   return (
     <MaskedInput
       {...rest}
-      inputRef={(ref: any) => {
-        inputRef(ref ? ref.inputElement : null)
-      }}
     />
   )
 }
@@ -39,14 +36,15 @@ const ApplicationForm = (props: ApplicationFormProps) => {
   const classes = useStyles()
   const history = useHistory()
   const {
-    actions,
     dirty,
-    formState,
+    setDirty,
+    setValues,
+    values,
     warnings
   } = useApplicationForm()
 
   const submitForm = async () => {
-    const formData = mapFormToPayload(formState)
+    const formData = mapFormToPayload(values)
     try {
       const response = await api.submitApplication(formData)
       const { preapproved }: ApplicationFormResponse = await response.json()
@@ -61,10 +59,18 @@ const ApplicationForm = (props: ApplicationFormProps) => {
       console.log(err.statusText)
     }
   }
-  const getFieldProps = (field: ApplicationFormField): TextFieldProps => ({
-    error: dirty[field] && !!warnings[field],
-    helperText: dirty[field] && warnings[field],
-    value: formState[field],
+  const getFieldProps = (name: ApplicationFormField): TextFieldProps => ({
+    error: dirty[name] && !!warnings[name],
+    helperText: dirty[name] && warnings[name],
+    name,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({
+        ...values,
+        [name]: e.target.value
+      })
+      setDirty({ ...dirty, [name]: true })
+    },
+    value: values[name],
     variant: 'outlined'
   })
   const isFormValid = !Object.values(warnings).some(Boolean)
@@ -73,31 +79,26 @@ const ApplicationForm = (props: ApplicationFormProps) => {
     <div className={clsx(classes.root, props.className)}>
       <TextField
         {...getFieldProps('price')}
-        InputProps={{ inputComponent: CurrencyInput }}
+        InputProps={{ inputComponent: CurrencyInput as any }}
         label='Purchase Price'
-        onChange={e => actions.setPrice(e.target.value)}
       />
       <TextField
         {...getFieldProps('make')}
         label='Auto Make'
-        onChange={e => actions.setMake(e.target.value)}
       />
       <TextField
         {...getFieldProps('model')}
         label='Auto Model'
-        onChange={e => actions.setModel(e.target.value)}
       />
       <TextField
         {...getFieldProps('income')}
-        InputProps={{ inputComponent: CurrencyInput }}
+        InputProps={{ inputComponent: CurrencyInput as any }}
         label='Estimated Yearly Income'
-        onChange={e => actions.setIncome(e.target.value)}
       />
       <TextField
         {...getFieldProps('creditScore')}
-        InputProps={{ inputComponent: NumberInput }}
+        InputProps={{ inputComponent: NumberInput as any }}
         label='Estimated Credit Score'
-        onChange={e => actions.setCreditScore(e.target.value)}
       />
       <Button
         color='primary'
