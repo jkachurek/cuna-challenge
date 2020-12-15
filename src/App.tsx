@@ -1,12 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-// will add routing later
+import useStyles from './App.styles'
 import Routes from './Routes'
 
 function App() {
+  const classes = useStyles()
+
   return (
-    <div>
+    <div className={classes.root}>
       <Router>
         <Routes />
       </Router>

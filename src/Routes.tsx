@@ -1,15 +1,15 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import ApplicationForm from './components/ApplicationForm'
+import ApplicationPage from './components/ApplicationPage'
 
 const Routes = () => (
   <Switch>
     <Route path='/prequalify'>
-      <ApplicationForm />
+      <ApplicationPage />
     </Route>
-    {/* <Route path='/qualified'></Route> */}
-    {/* <Route path='/disqualified'></Route> */}
+    <Route path='/qualified'>Qualified!</Route>
+    <Route path='/disqualified'>Disqualified!</Route>
     <Route path='*'>
       <Redirect to='/prequalify' />
     </Route>

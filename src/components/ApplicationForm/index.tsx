@@ -1,8 +1,12 @@
-import { Box, Button, TextField } from '@material-ui/core'
+import { Button, TextField, TextFieldProps } from '@material-ui/core'
+import clsx from 'clsx'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import MaskedInput from 'react-text-mask'
 import { createNumberMask } from 'text-mask-addons'
 
+import mapFormToPayload from './mapFormToPayload'
+import useStyles from './styles'
 import useApplicationForm from '../../hooks/useApplicationForm'
 import * as api from '../../api'
 import { ApplicationFormData, ApplicationFormField, ApplicationFormResponse } from '../../types'
@@ -10,14 +14,30 @@ import { ApplicationFormData, ApplicationFormField, ApplicationFormResponse } fr
 const currencyMask = createNumberMask({})
 const numberMask = createNumberMask({ prefix: '' })
 
+const MaskedInputWithRef = ({ inputRef, ...rest }: any) => {
+  return (
+    <MaskedInput
+      {...rest}
+      inputRef={(ref: any) => {
+        inputRef(ref ? ref.inputElement : null)
+      }}
+    />
+  )
+}
 const CurrencyInput = (props: any) => (
-  <MaskedInput {...props} mask={currencyMask} />
+  <MaskedInputWithRef {...props} mask={currencyMask} />
 )
 const NumberInput = (props: any) => (
-  <MaskedInput {...props} mask={numberMask} />
+  <MaskedInputWithRef {...props} mask={numberMask} />
 )
 
-const ApplicationForm = () => {
+interface ApplicationFormProps {
+  className?: string
+}
+
+const ApplicationForm = (props: ApplicationFormProps) => {
+  const classes = useStyles()
+  const history = useHistory()
   const {
     actions,
     dirty,
@@ -26,34 +46,30 @@ const ApplicationForm = () => {
   } = useApplicationForm()
 
   const submitForm = async () => {
-    const formData: ApplicationFormData = {
-      creditScore: Number(formState.creditScore),
-      income: Number(formState.income),
-      make: formState.make,
-      model: formState.model,
-      price: Number(formState.price)
-    }
+    const formData = mapFormToPayload(formState)
     try {
       const response = await api.submitApplication(formData)
       const { preapproved }: ApplicationFormResponse = await response.json()
       if (preapproved) {
-        console.log('loan preapproved!')
+        history.push('/qualified')
       } else {
-        console.log('loan rejected!')
+        history.push('/disqualified')
       }
     } catch (err) {
+      // handle bad request with front-end error msg?
       console.log(err.statusText)
     }
   }
-  const getFieldProps = (field: ApplicationFormField) => ({
+  const getFieldProps = (field: ApplicationFormField): TextFieldProps => ({
     error: dirty[field] && !!warnings[field],
     helperText: dirty[field] && warnings[field],
-    value: formState[field]
+    value: formState[field],
+    variant: 'outlined'
   })
   const isFormValid = !Object.values(warnings).some(Boolean)
 
   return (
-    <Box display='flex' flexDirection='column' width='50%'>
+    <div className={clsx(classes.root, props.className)}>
       <TextField
         {...getFieldProps('price')}
         InputProps={{ inputComponent: CurrencyInput }}
@@ -91,7 +107,7 @@ const ApplicationForm = () => {
       >
         Submit
       </Button>
-    </Box>
+    </div>
   )
 }
 

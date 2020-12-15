@@ -23,6 +23,7 @@
 - [ ] Input Masking
 - [ ] Marketing copy (can be lorem ipsum)
 - [ ] Submit/apply button
+- [ ] Handle Bad Request
 
 ## New Account Page
 - [ ] Form Fields
@@ -37,7 +38,6 @@
 
 ## Disqualification Page
 - [ ] Disqualification message (from API call)
-  - [ ] Handle Bad Request
   - [ ] Handle Disqualification
 - [ ] "Customer Service" Contact information
 - [ ] Prevent going back to / refreshing form
