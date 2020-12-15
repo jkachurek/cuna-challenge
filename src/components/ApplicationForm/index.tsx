@@ -9,7 +9,7 @@ import mapFormToPayload from './mapFormToPayload'
 import useStyles from './styles'
 import useApplicationForm from '../../hooks/useApplicationForm'
 import * as api from '../../api'
-import { ApplicationFormData, ApplicationFormField, ApplicationFormResponse } from '../../types'
+import { ApplicationFormField, ApplicationFormResponse } from '../../types'
 
 const currencyMask = createNumberMask({})
 const numberMask = createNumberMask({ prefix: '' })
@@ -53,7 +53,8 @@ const ApplicationForm = (props: ApplicationFormProps) => {
       if (preapproved) {
         history.push('/qualified')
       } else {
-        history.push('/disqualified')
+        // use `replace()` so user cannot go back
+        history.replace('/disqualified')
       }
     } catch (err) {
       // handle bad request with front-end error msg?

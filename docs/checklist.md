@@ -6,23 +6,23 @@
 - [ ] Styling
 
 ## Workflow
-- [ ] Land on application page
-- [ ] Navigate to disqualification page on disqualification
-- [ ] Navigate to account creation on success
+- [x] Land on application page
+- [x] Navigate to disqualification page on disqualification
+- [x] Navigate to account creation on success
 - [ ] Show error message for bad request?
 
 ## Landing Page
-- [ ] Form Fields
-  - [ ] Auto Purchase Price (Currency)
-  - [ ] Auto Make (Text)
-  - [ ] Auto Model (Text)
-  - [ ] User Est. Yearly Income (Currency)
-  - [ ] User Est. Credit Score (Number, 300-850)
-- [ ] All fields required
-- [ ] Live input validation
-- [ ] Input Masking
+- [x] Form Fields
+  - [x] Auto Purchase Price (Currency)
+  - [x] Auto Make (Text)
+  - [x] Auto Model (Text)
+  - [x] User Est. Yearly Income (Currency)
+  - [x] User Est. Credit Score (Number, 300-850)
+- [x] All fields required
+- [x] Live input validation
+- [x] Input Masking
 - [ ] Marketing copy (can be lorem ipsum)
-- [ ] Submit/apply button
+- [x] Submit/apply button
 - [ ] Handle Bad Request
 
 ## New Account Page
@@ -37,10 +37,10 @@
 
 
 ## Disqualification Page
-- [ ] Disqualification message (from API call)
+- [ ] Disqualification message (from API call?)
   - [ ] Handle Disqualification
 - [ ] "Customer Service" Contact information
-- [ ] Prevent going back to / refreshing form
+- [x] Prevent going back to / refreshing form
   - Allow re-entering initial route so folks can test this app easily, but refreshing DQ page should stay there
 
 ## API Call
@@ -54,6 +54,5 @@
 
 ## Stretch Goals
 - [ ] Include show/hide button for password fields
-- [ ] Use `useReducer` for main form to demonstrate knowledge of Redux pattern
 - [ ] Success message for account creation page
   - Hide form, show success message on submission
