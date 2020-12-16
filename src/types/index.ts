@@ -37,13 +37,13 @@ export interface ApplicationFormResponse {
 }
 
 export interface NewAccountForm {
+  password: string
+  passwordConfirm: string
   username: string
-  password1: string
-  password2: string
 }
 
 export interface NewAccountFormWarnings {
+  password: ValidationWarning
+  passwordConfirm: ValidationWarning
   username: ValidationWarning
-  password1: ValidationWarning
-  password2: ValidationWarning
 }

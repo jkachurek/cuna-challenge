@@ -26,14 +26,14 @@
 - [ ] Handle Bad Request
 
 ## New Account Page
-- [ ] Form Fields
-  - [ ] Username (Email)
-  - [ ] Password (Password)
-  - [ ] Password Validation (Password)
+- [x] Form Fields
+  - [x] Username (Email)
+  - [x] Password (Password)
 - [ ] All fields required
 - [ ] Input validation
   - [ ] Validate passwords have 8+ chars, incl. number OR special character
   - [ ] Passwords must match
+- [ ] Show some sort of message when the form is submitted
 
 
 ## Disqualification Page

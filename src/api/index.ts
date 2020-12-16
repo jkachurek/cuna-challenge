@@ -1,4 +1,4 @@
-import { ApplicationFormData } from '../types'
+import { ApplicationFormData, NewAccountForm } from '../types'
 
 /*
   This file simulates the responses from an actual API using the Response class.
@@ -36,7 +36,7 @@ export const submitApplication = (payload: ApplicationFormData): Promise<Respons
   })
 }
 
-export const createAccount = (payload: any): Promise<Response> => {
+export const createAccount = (payload: NewAccountForm): Promise<Response> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(new Response(null, {

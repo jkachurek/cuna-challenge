@@ -3,66 +3,56 @@ import React, { useState } from 'react'
 
 import useStyles from './styles'
 import * as api from '../../api'
+import useForm from '../../hooks/useForm'
+import { NewAccountForm } from '../../types'
+import { emailRegex, passwordRegex } from '../../util/validators'
 
 type AccountFormField = 'username' | 'password' | 'passwordConfirm'
 
 const AccountForm = () => {
   const classes = useStyles()
-  const [values, setValues] = useState({
-    password: '',
-    passwordConfirm: '',
-    username: ''
+  const {
+    // dirty,
+    getFieldProps,
+    valid,
+    values
+  } = useForm<AccountFormField>([
+    'password',
+    'passwordConfirm',
+    'username'
+  ], {
+    password: (val: string) => passwordRegex.test(val),
+    passwordConfirm: (val: string): boolean => val === values?.password,
+    username: (val: string) => emailRegex.test(val)
   })
-  const [dirty, setDirty] = useState({
-    password: false,
-    passwordConfirm: false,
-    username: false
-  })
-
-  const warnings = {
-    password: '',
-    passwordConfirm: '',
-    username: ''
-  }
 
   const submitForm = async () => {
     try {
-      await api.createAccount({})
+      await api.createAccount(values as NewAccountForm)
       // account successfully created
     } catch (err) {
       console.log(err.statusText)
     }
   }
 
-  const getFieldProps = (name: AccountFormField): TextFieldProps => ({
-    error: !!warnings[name],
-    helperText: warnings[name],
-    name,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [name]: e.target.value
-      })
-      setDirty({ ...dirty, [name]: true })
-    },
-    variant: 'outlined'
-  })
-
-  const isFormValid = !Object.values(warnings).some(Boolean)
+  const isFormValid = !Object.values(valid).every(Boolean)
 
   return (
     <div className={classes.root}>
       <TextField
-        {...getFieldProps('username')}
-        label='Username'
+        {...getFieldProps('username') as TextFieldProps}
+        helperText={!valid.username && 'Username must be a valid email address'}
+        label='Username / Email'
       />
       <TextField
-        {...getFieldProps('password')}
+        {...getFieldProps('password') as TextFieldProps}
+        helperText={!valid.password && 'Password must contain at least 8 characters, including a number or special character'}
         label='Password'
         type='password'
       />
       <TextField
-        {...getFieldProps('passwordConfirm')}
+        {...getFieldProps('passwordConfirm') as TextFieldProps}
+        helperText={!valid.passwordConfirm && 'Passwords must match'}
         label='Confirm Password'
         type='password'
       />

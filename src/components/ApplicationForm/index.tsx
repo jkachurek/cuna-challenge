@@ -49,7 +49,7 @@ const ApplicationForm = (props: ApplicationFormProps) => {
       const response = await api.submitApplication(formData)
       const { preapproved }: ApplicationFormResponse = await response.json()
       if (preapproved) {
-        history.push('/qualified')
+        history.push('/new-user')
       } else {
         // use `replace()` so user cannot go back
         history.replace('/disqualified')

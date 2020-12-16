@@ -9,7 +9,7 @@ const Routes = () => (
     <Route path='/prequalify'>
       <ApplicationPage />
     </Route>
-    <Route path='/qualified'>
+    <Route path='/new-user'>
       <AccountForm />
     </Route>
     <Route path='/disqualified'>Disqualified!</Route>
