@@ -2,7 +2,11 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(({ spacing }) => ({
   root: {
-    padding: spacing(2, 4)
+    display: 'flex',
+    flexDirection: 'column',
+    '& > *': {
+      margin: spacing(1)
+    }
   }
 }))
 

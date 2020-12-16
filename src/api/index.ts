@@ -35,3 +35,14 @@ export const submitApplication = (payload: ApplicationFormData): Promise<Respons
     }, randomTimeout(500, 1500))
   })
 }
+
+export const createAccount = (payload: any): Promise<Response> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(new Response(null, {
+        status: 200,
+        statusText: 'Account successfully created'
+      }))
+    }, randomTimeout(500, 1500))
+  })
+}

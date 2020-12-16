@@ -56,6 +56,7 @@
 - [ ] Include show/hide button for password fields
 - [ ] Success message for account creation page
   - Hide form, show success message on submission
+- [ ] Create generic form hook that can spit out field props and valid state and such given a list of field names and an array of warnings
 
 ## Annoyances
 - [ ] Field validation error should not change horizontal margin of application form
