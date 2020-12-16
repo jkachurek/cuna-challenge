@@ -1,5 +1,5 @@
 import { Button, TextField, TextFieldProps } from '@material-ui/core'
-import React, { useState } from 'react'
+import React from 'react'
 
 import useStyles from './styles'
 import * as api from '../../api'
@@ -12,7 +12,6 @@ type AccountFormField = 'username' | 'password' | 'passwordConfirm'
 const AccountForm = () => {
   const classes = useStyles()
   const {
-    // dirty,
     getFieldProps,
     valid,
     values

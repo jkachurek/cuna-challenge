@@ -29,10 +29,10 @@
 - [x] Form Fields
   - [x] Username (Email)
   - [x] Password (Password)
-- [ ] All fields required
-- [ ] Input validation
-  - [ ] Validate passwords have 8+ chars, incl. number OR special character
-  - [ ] Passwords must match
+- [x] All fields required
+- [x] Input validation
+  - [x] Validate passwords have 8+ chars, incl. number OR special character
+  - [x] Passwords must match
 - [ ] Show some sort of message when the form is submitted
 
 

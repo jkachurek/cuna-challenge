@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles(({ spacing }) => ({
   copy: {
-    flexGrow: 2,
+    flexGrow: 1.75,
     marginBottom: spacing(1),
     marginTop: spacing(1)
   },

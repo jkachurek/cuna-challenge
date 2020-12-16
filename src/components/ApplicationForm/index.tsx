@@ -7,9 +7,9 @@ import { createNumberMask } from 'text-mask-addons'
 
 import mapFormToPayload from './mapFormToPayload'
 import useStyles from './styles'
-import useApplicationForm from '../../hooks/useApplicationForm'
+import useForm from '../../hooks/useForm'
 import * as api from '../../api'
-import { ApplicationFormField, ApplicationFormResponse } from '../../types'
+import { ApplicationForm as ApplicationFormState, ApplicationFormField, ApplicationFormResponse } from '../../types'
 
 const currencyMask = createNumberMask({})
 const numberMask = createNumberMask({ prefix: '' })
@@ -36,15 +36,26 @@ const ApplicationForm = (props: ApplicationFormProps) => {
   const classes = useStyles()
   const history = useHistory()
   const {
-    dirty,
-    setDirty,
-    setValues,
-    values,
-    warnings
-  } = useApplicationForm()
+    getFieldProps,
+    valid,
+    values
+  } = useForm<ApplicationFormField>([
+    'creditScore',
+    'income',
+    'make',
+    'model',
+    'price'
+  ], {
+    creditScore: (val: string) => (~~val >= 300 && ~~val <= 850),
+    income: (val: string) => !!val,
+    make: (val: string) => !!val,
+    model: (val: string) => !!val,
+    // this gets validated in the API
+    price: (val: string) => !!val
+  })
 
   const submitForm = async () => {
-    const formData = mapFormToPayload(values)
+    const formData = mapFormToPayload(values as ApplicationFormState)
     try {
       const response = await api.submitApplication(formData)
       const { preapproved }: ApplicationFormResponse = await response.json()
@@ -59,44 +70,36 @@ const ApplicationForm = (props: ApplicationFormProps) => {
       console.log(err.statusText)
     }
   }
-  const getFieldProps = (name: ApplicationFormField): TextFieldProps => ({
-    error: dirty[name] && !!warnings[name],
-    helperText: dirty[name] && warnings[name],
-    name,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [name]: e.target.value
-      })
-      setDirty({ ...dirty, [name]: true })
-    },
-    value: values[name],
-    variant: 'outlined'
-  })
-  const isFormValid = !Object.values(warnings).some(Boolean)
+
+  const isFormValid = Object.values(valid).every(Boolean)
 
   return (
     <div className={clsx(classes.root, props.className)}>
       <TextField
-        {...getFieldProps('price')}
+        {...getFieldProps('price') as TextFieldProps}
+        helperText={!valid.price && 'Price is required'}
         InputProps={{ inputComponent: CurrencyInput as any }}
         label='Purchase Price'
       />
       <TextField
-        {...getFieldProps('make')}
+        {...getFieldProps('make') as TextFieldProps}
+        helperText={!valid.make && 'Make is required'}
         label='Auto Make'
       />
       <TextField
-        {...getFieldProps('model')}
+        {...getFieldProps('model') as TextFieldProps}
+        helperText={!valid.model && 'Model is required'}
         label='Auto Model'
       />
       <TextField
-        {...getFieldProps('income')}
+        {...getFieldProps('income') as TextFieldProps}
+        helperText={!valid.income && 'Estimated Yearly Income is required'}
         InputProps={{ inputComponent: CurrencyInput as any }}
         label='Estimated Yearly Income'
       />
       <TextField
-        {...getFieldProps('creditScore')}
+        {...getFieldProps('creditScore') as TextFieldProps}
+        helperText={!valid.creditScore && 'Credit Score must be between 300 and 850'}
         InputProps={{ inputComponent: NumberInput as any }}
         label='Estimated Credit Score'
       />

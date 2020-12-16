@@ -36,7 +36,6 @@ const useForm = <T extends string>(fields: T[], validators: ValidatorMap<T>) => 
 
   return {
     getFieldProps,
-    setValues,
     valid,
     values
   }
