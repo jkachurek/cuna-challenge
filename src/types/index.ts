@@ -47,3 +47,15 @@ export interface NewAccountFormWarnings {
   passwordConfirm: ValidationWarning
   username: ValidationWarning
 }
+
+export type NotificationSeverity = 'error' | 'info' | 'success' | 'warning' | undefined
+export interface Notification {
+  message: string
+  severity: NotificationSeverity
+}
+export interface NotificationContext {
+  closeNotification: () => void
+  notification: Notification
+  open: boolean
+  setNotification: (notification: Notification) => void
+}

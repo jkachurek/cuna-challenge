@@ -7,9 +7,14 @@ import { createNumberMask } from 'text-mask-addons'
 
 import mapFormToPayload from './mapFormToPayload'
 import useStyles from './styles'
+import { useNotificationContext } from '../../context/NotificationContext'
 import useForm from '../../hooks/useForm'
 import * as api from '../../api'
-import { ApplicationForm as ApplicationFormState, ApplicationFormField, ApplicationFormResponse } from '../../types'
+import {
+  ApplicationForm as ApplicationFormState,
+  ApplicationFormField,
+  ApplicationFormResponse
+} from '../../types'
 
 const currencyMask = createNumberMask({})
 const numberMask = createNumberMask({ prefix: '' })
@@ -54,24 +59,32 @@ const ApplicationForm = (props: ApplicationFormProps) => {
     price: (val: string) => !!val
   })
 
+  const { setNotification } = useNotificationContext()
+
   const submitForm = async () => {
     const formData = mapFormToPayload(values as ApplicationFormState)
     try {
       const response = await api.submitApplication(formData)
       const { preapproved }: ApplicationFormResponse = await response.json()
       if (preapproved) {
+        setNotification({
+          message: 'Application approved!',
+          severity: 'success'
+        })
         history.push('/new-user')
       } else {
         // use `replace()` so user cannot go back
         history.replace('/disqualified')
       }
     } catch (err) {
-      // handle bad request with front-end error msg?
-      console.log(err.statusText)
+      setNotification({
+        message: err?.statusText ?? 'An error occurred while processing your application',
+        severity: 'error'
+      })
     }
   }
 
-  const isFormValid = Object.values(valid).every(Boolean)
+  const isFormValid = Object.values(valid).every(Boolean) && Object.values(values).every(Boolean)
 
   return (
     <div className={clsx(classes.root, props.className)}>

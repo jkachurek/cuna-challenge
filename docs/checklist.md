@@ -2,14 +2,14 @@
 - [ ] Build Instructions (in README)
 - [x] Design Docs
 - [ ] Testing
-- [ ] Error Handling
-- [ ] Styling
+- [x] Error Handling
+- [x] Styling
 
 ## Workflow
 - [x] Land on application page
 - [x] Navigate to disqualification page on disqualification
 - [x] Navigate to account creation on success
-- [ ] Show error message for bad request?
+- [x] Show error message for bad request?
 
 ## Landing Page
 - [x] Form Fields
@@ -23,7 +23,7 @@
 - [x] Input Masking
 - [ ] Marketing copy (can be lorem ipsum)
 - [x] Submit/apply button
-- [ ] Handle Bad Request
+- [x] Handle Bad Request
 
 ## New Account Page
 - [x] Form Fields
@@ -33,11 +33,11 @@
 - [x] Input validation
   - [x] Validate passwords have 8+ chars, incl. number OR special character
   - [x] Passwords must match
-- [ ] Show some sort of message when the form is submitted
+- [x] Show some sort of message when the form is submitted
 
 
 ## Disqualification Page
-- [ ] Disqualification message (from API call?)
+- [ ] Disqualification message
   - [ ] Handle Disqualification
 - [ ] "Customer Service" Contact information
 - [x] Prevent going back to / refreshing form
@@ -54,9 +54,5 @@
 
 ## Stretch Goals
 - [ ] Include show/hide button for password fields
-- [ ] Success message for account creation page
-  - Hide form, show success message on submission
-- [ ] Create generic form hook that can spit out field props and valid state and such given a list of field names and an array of warnings
-
-## Annoyances
-- [ ] Field validation error should not change horizontal margin of application form
+- [x] Success message for account creation page
+- [x] Create generic form hook that can spit out field props and valid state and such given a list of field names and an array of warnings

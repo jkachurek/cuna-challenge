@@ -1,8 +1,10 @@
 import { Button, TextField, TextFieldProps } from '@material-ui/core'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import useStyles from './styles'
 import * as api from '../../api'
+import { useNotificationContext } from '../../context/NotificationContext'
 import useForm from '../../hooks/useForm'
 import { NewAccountForm } from '../../types'
 import { emailRegex, passwordRegex } from '../../util/validators'
@@ -11,6 +13,7 @@ type AccountFormField = 'username' | 'password' | 'passwordConfirm'
 
 const AccountForm = () => {
   const classes = useStyles()
+  const history = useHistory()
   const {
     getFieldProps,
     valid,
@@ -20,21 +23,32 @@ const AccountForm = () => {
     'passwordConfirm',
     'username'
   ], {
-    password: (val: string) => passwordRegex.test(val),
+    password: (val: string) => !!(val && passwordRegex.test(val)),
     passwordConfirm: (val: string): boolean => val === values?.password,
-    username: (val: string) => emailRegex.test(val)
+    username: (val: string) => !!(val && emailRegex.test(val))
   })
+
+  const { setNotification } = useNotificationContext()
 
   const submitForm = async () => {
     try {
       await api.createAccount(values as NewAccountForm)
-      // account successfully created
+      setNotification({
+        message: 'Account successfully created!',
+        severity: 'success'
+      })
+      history.push('/prequalify')
     } catch (err) {
-      console.log(err.statusText)
+      // there's no way for this to trigger in this demo application,
+      // but why not handle it anyway
+      setNotification({
+        message: err?.statusText ?? 'An error occurred while creating your account',
+        severity: 'error'
+      })
     }
   }
 
-  const isFormValid = !Object.values(valid).every(Boolean)
+  const isFormValid = Object.values(valid).every(Boolean) && Object.values(values).every(Boolean)
 
   return (
     <div className={classes.root}>

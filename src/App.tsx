@@ -3,13 +3,16 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import Routes from './Routes'
 import Layout from './components/Layout'
+import NotificationProvider from './components/NotificationProvider'
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes />
-      </Layout>
+      <NotificationProvider>
+        <Layout>
+          <Routes />
+        </Layout>
+      </NotificationProvider>
     </Router>
   )
 }
