@@ -3,6 +3,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import useStyles from './styles'
+import PaperPanel from '../PaperPanel'
 import * as api from '../../api'
 import { useNotificationContext } from '../../context/NotificationContext'
 import useForm from '../../hooks/useForm'
@@ -51,7 +52,7 @@ const AccountForm = () => {
   const isFormValid = Object.values(valid).every(Boolean) && Object.values(values).every(Boolean)
 
   return (
-    <div className={classes.root}>
+    <PaperPanel className={classes.root}>
       <TextField
         {...getFieldProps('username') as TextFieldProps}
         helperText={!valid.username && 'Username must be a valid email address'}
@@ -78,7 +79,7 @@ const AccountForm = () => {
       >
         Create Account
       </Button>
-    </div>
+    </PaperPanel>
   )
 }
 

@@ -21,7 +21,7 @@
 - [x] All fields required
 - [x] Live input validation
 - [x] Input Masking
-- [ ] Marketing copy (can be lorem ipsum)
+- [x] Marketing copy (can be lorem ipsum)
 - [x] Submit/apply button
 - [x] Handle Bad Request
 
@@ -37,9 +37,9 @@
 
 
 ## Disqualification Page
-- [ ] Disqualification message
-  - [ ] Handle Disqualification
-- [ ] "Customer Service" Contact information
+- [x] Disqualification message
+  - [x] Handle Disqualification
+- [x] "Customer Service" Contact information
 - [x] Prevent going back to / refreshing form
   - Allow re-entering initial route so folks can test this app easily, but refreshing DQ page should stay there
 

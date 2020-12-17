@@ -1,10 +1,14 @@
 import { makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles(({ mixins, spacing }) => ({
-  root: {
-    padding: spacing(2, 4)
+const useStyles = makeStyles(({ mixins, palette, spacing }) => ({
+  appBarOffset: mixins.toolbar,
+  contentArea: {
+    margin: spacing(3, 4)
   },
-  appBarOffset: mixins.toolbar
+  root: {
+    backgroundColor: palette.grey[200],
+    height: '100vh',
+  }
 }))
 
 export default useStyles

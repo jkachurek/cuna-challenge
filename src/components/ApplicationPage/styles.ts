@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core'
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   copy: {
-    flexGrow: 1.75,
-    marginBottom: spacing(1),
-    marginTop: spacing(1)
+    flexGrow: 2,
+    height: 'fit-content'
   },
   form: {
     flexGrow: 1, 
@@ -12,12 +11,13 @@ const useStyles = makeStyles(({ spacing }) => ({
   },
   root: {
     display: 'flex',
-    flexWrap: 'wrap-reverse',
     // preserve outer margin, add inner margin for child elements
-    margin: spacing(0, -1),
+    margin: spacing(-1),
     '& > *': {
-      marginLeft: spacing(1),
-      marginRight: spacing(1)
+      margin: spacing(1)
+    },
+    [breakpoints.down('sm')]: {
+      flexWrap: 'wrap-reverse'
     }
   }
 }))

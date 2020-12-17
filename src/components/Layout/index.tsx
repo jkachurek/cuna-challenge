@@ -13,7 +13,9 @@ const Layout: React.FunctionComponent = ({ children }) => {
         </Toolbar>
       </AppBar>
       <div className={classes.appBarOffset} />
-      {children}
+      <div className={classes.contentArea}>
+        {children}
+      </div>
     </div>
   )
 }
