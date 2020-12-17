@@ -51,7 +51,7 @@ const ApplicationForm = (props: ApplicationFormProps) => {
     'model',
     'price'
   ], {
-    creditScore: (val: string) => (~~val >= 300 && ~~val <= 850),
+    creditScore: (val: string) => !!(val && ~~val >= 300 && ~~val <= 850),
     income: (val: string) => !!val,
     make: (val: string) => !!val,
     model: (val: string) => !!val,

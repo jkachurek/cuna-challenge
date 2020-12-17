@@ -24,7 +24,7 @@ const AccountForm = () => {
     'username'
   ], {
     password: (val: string) => !!(val && passwordRegex.test(val)),
-    passwordConfirm: (val: string): boolean => val === values?.password,
+    passwordConfirm: (val: string): boolean => !!(val && val === values?.password),
     username: (val: string) => !!(val && emailRegex.test(val))
   })
 
