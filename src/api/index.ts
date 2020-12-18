@@ -1,5 +1,5 @@
 import { ApplicationFormData, NewAccountForm } from '../types'
-
+import blobify from '../util/blobify'
 /*
   This file simulates the responses from an actual API using the Response class.
   When it is consumed, it should be used in (almost) the exact same way as the fetch API
@@ -9,7 +9,6 @@ import { ApplicationFormData, NewAccountForm } from '../types'
 const randomTimeout = (min: number, max: number) => {
   return Math.floor((Math.random() * (max - min)) + min)
 }
-const blobify = (data: any) => new Blob([JSON.stringify(data)], { type: 'application/json' })
 
 export const submitApplication = (payload: ApplicationFormData): Promise<Response> => {
   return new Promise((resolve, reject) => {

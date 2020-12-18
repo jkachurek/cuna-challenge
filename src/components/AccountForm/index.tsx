@@ -72,6 +72,7 @@ const AccountForm = () => {
       />
       <Button
         color='primary'
+        data-testId='account-submit-button'
         disabled={!isFormValid}
         onClick={submitForm}
         size='large'
