@@ -1,5 +1,12 @@
-import { Button, TextField, TextFieldProps } from '@material-ui/core'
-import React from 'react'
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  TextFieldProps
+} from '@material-ui/core'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import useStyles from './styles'
@@ -11,6 +18,18 @@ import { NewAccountForm } from '../../types'
 import { emailRegex, passwordRegex } from '../../util/validators'
 
 type AccountFormField = 'username' | 'password' | 'passwordConfirm'
+
+interface VisibilityAdornmentProps {
+  onClick: (e: React.MouseEvent) => void,
+  visible: boolean
+}
+const renderVisibilityAdornment = ({ onClick, visible }: VisibilityAdornmentProps) => (
+  <InputAdornment position='end'>
+    <IconButton onClick={onClick}>
+      {visible ? <Visibility /> : <VisibilityOff />}
+    </IconButton>
+  </InputAdornment>
+)
 
 const AccountForm = () => {
   const classes = useStyles()
@@ -27,6 +46,11 @@ const AccountForm = () => {
     password: (val: string) => !!(val && passwordRegex.test(val)),
     passwordConfirm: (val: string): boolean => !!(val && val === values?.password),
     username: (val: string) => !!(val && emailRegex.test(val))
+  })
+
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    password: false,
+    passwordConfirm: false
   })
 
   const { setNotification } = useNotificationContext()
@@ -49,6 +73,13 @@ const AccountForm = () => {
     }
   }
 
+  const toggleVisibility = (field: 'password' | 'passwordConfirm') => {
+    setPasswordVisibility({
+      ...passwordVisibility,
+      [field]: !passwordVisibility[field]
+    })
+  }
+
   const isFormValid = Object.values(valid).every(Boolean) && Object.values(values).every(Boolean)
 
   return (
@@ -61,14 +92,26 @@ const AccountForm = () => {
       <TextField
         {...getFieldProps('password') as TextFieldProps}
         helperText={!valid.password && 'Password must contain at least 8 characters, including a number or special character'}
+        InputProps={{
+          endAdornment: renderVisibilityAdornment({
+            onClick: (e) => toggleVisibility('password'),
+            visible: passwordVisibility.password
+          })
+        }}
         label='Password'
-        type='password'
+        type={passwordVisibility.password ? 'text' : 'password'}
       />
       <TextField
         {...getFieldProps('passwordConfirm') as TextFieldProps}
         helperText={!valid.passwordConfirm && 'Passwords must match'}
+        InputProps={{
+          endAdornment: renderVisibilityAdornment({
+            onClick: (e) => toggleVisibility('passwordConfirm'),
+            visible: passwordVisibility.passwordConfirm
+          })
+        }}
         label='Confirm Password'
-        type='password'
+        type={passwordVisibility.passwordConfirm ? 'text' : 'password'}
       />
       <Button
         color='primary'
