@@ -53,6 +53,7 @@
   - [x] Otherwise, 200 w/ approval message
 
 ## Stretch Goals
+- [ ] Add loading state to forms to prevent duplicate form submission
 - [ ] Include show/hide button for password fields
 - [x] Success message for account creation page
 - [x] Create generic form hook that can spit out field props and valid state and such given a list of field names and an array of warnings

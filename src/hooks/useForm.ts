@@ -14,6 +14,7 @@ const useForm = <T extends string>(fields: T[], validators: ValidatorMap<T>) => 
   )
   const [valid, setValid] = useState(fields.reduce(
     (acc: BoolMap<T>, f) => {
+      // default to true so form only shows errors once it is touched
       acc[f] = true
       return acc
     }, {})
@@ -25,9 +26,7 @@ const useForm = <T extends string>(fields: T[], validators: ValidatorMap<T>) => 
     onChange: (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target
       setValues({ ...values, [name]: value })
-      if (validators[name]) {
-        setValid({ ...valid, [name]: validators[name](value) })
-      }
+      setValid({ ...valid, [name]: validators[name](value) })
     },
     // ideally this would be in the overrides of a custom MUI theme,
     // but it's not quite worth it to make a whole custom theme just for that.
