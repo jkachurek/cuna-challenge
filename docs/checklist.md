@@ -1,7 +1,7 @@
 ## General
-- [ ] Build Instructions (in README)
+- [x] Build Instructions (in README)
 - [x] Design Docs
-- [ ] Testing
+- [x] Testing
 - [x] Error Handling
 - [x] Styling
 
